@@ -8,6 +8,7 @@ request.onerror = function (event) {
 request.onsuccess = function (event) {
     db = event.target.result;
     var dbVersion = request.result;
+    console.log('Conectado a Version DB '+dbVersion.version)
     $("#db-version").html(dbVersion.version)
 };
 
