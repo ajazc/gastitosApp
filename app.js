@@ -1,5 +1,5 @@
 let db;
-const request = indexedDB.open('gastosDB', 1);
+const request = indexedDB.open('gastosDB', 2);
 
 request.onerror = function(event){
     console.log('Error al Abrir la Base de Datos')
