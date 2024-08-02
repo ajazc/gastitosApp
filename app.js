@@ -44,7 +44,9 @@ function displayEntries(entries) {
                     <td>${entry.id}</td>\
                     <td>${entry.motivo}</td>\
                     <td>${entry.monto}</td>\
-                    <td><button class='btn btn-warning' data-id='${entry.id}'>Eliminar</button><td></tr>`);
+                    <td>
+                    <button class='btn btn-danger' id='eliminar' data-id='${entry.id}'>Eliminar</button>
+                    <td></tr>`);
     });
     
 }
