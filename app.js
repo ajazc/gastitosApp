@@ -1,16 +1,17 @@
 let db;
 const request = indexedDB.open('gastosDB', 2);
 
-request.onerror = function(event){
+request.onerror = function (event) {
     console.log('Error al Abrir la Base de Datos')
 };
 
-request.onsuccess= function(event){
+request.onsuccess = function (event) {
     db = event.target.result;
-    
+    var dbVersion = request.result;
+    $("#db-version").html(dbVersion.version)
 };
 
-request.onupgradeneeded = function(event) {
+request.onupgradeneeded = function (event) {
     db = event.target.result;
     const objectStore = db.createObjectStore('gastos', { keyPath: 'id', autoIncrement: true });
     objectStore.createIndex('motivo', 'motivo', { unique: false });
@@ -20,26 +21,32 @@ request.onupgradeneeded = function(event) {
 };
 
 function loadEntries() {
-    const transaction = db.transaction(['gastos'], 'readonly');
-    const objectStore = transaction.objectStore('gastos');
-    const request = objectStore.openCursor();
-    const entries = [];
+    try {
+        const transaction = db.transaction(['gastos'], 'readonly');
+        const objectStore = transaction.objectStore('gastos');
+        const request = objectStore.openCursor();
+        const entries = [];
 
-    request.onsuccess = function(event) {
-        const cursor = event.target.result;
-        if(cursor) {
-            entries.push(cursor.value);
-            cursor.continue();
-        } else {
-            displayEntries(entries);
-            sumaTodo(entries)
-        }
-    };
+        request.onsuccess = function (event) {
+            const cursor = event.target.result;
+            if (cursor) {
+                entries.push(cursor.value);
+                cursor.continue();
+            } else {
+                displayEntries(entries);
+                sumaTodo(entries)
 
-    request.onerror = function(event) {
-        console.log('Error al cargar los gastos', event);
-    };
-}
+            }
+        };
+        request.onerror = function (event) {
+            console.log('Error al cargar los gastos', event);
+        };
+    }
+    catch (error) {
+        console.log(error)
+    }
+};
+
 function displayEntries(entries) {
     $('#resultados-db').empty();
     entries.forEach(entry => {
@@ -54,16 +61,15 @@ function displayEntries(entries) {
                     <td></tr>`);
     });
 }
-function sumaTodo(entries){
+function sumaTodo(entries) {
     $("#totales").empty();
-    var total=parseFloat(0);
-    console.log(entries);
-    for (let i in entries){
+    var total = parseFloat(0);
+    for (let i in entries) {
         console.log();
         total += parseFloat(entries[i].monto);
     }
     $("#totales").html(`Total de Gatos $ ${total}`);
-    
-    
+
+
 
 }
