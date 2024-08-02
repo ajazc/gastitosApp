@@ -18,45 +18,58 @@
 <body>
     <div class="container-fluid bg-light">
         <div class="row">
+            <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto border p-2 rounded text-center">
             <h1 class="header text-center">Bienvenido a Gastitos App </h1>
             <span class="text-muted text-center"><strong>Aca podes cargar tus gastos diarios y llevar un control de los
                     mismos</strong></span>
         </div>
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto border p-2 rounded">
-                <div class="form-group mb-3">
-                    <label for="monto"><strong>Monto $: </strong></label>
-                    <input type="number" id="monto" name="monto" class="form-control" placeholder="ingresa el monto"
-                        required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="motivo"><strong>Motivo </strong></label>
-                    <input type="text" id="motivo" name="motivo" class="form-control" placeholder="ingresa el motivo"
-                        required>
-                </div>
-                <div class="form-group mb-3 text-center">
-                    <button class="btn btn-danger btn-lg" type="button" id="agregar">Agregar Gastito</button>
-                </div>
-
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto border p-2 rounded">
+            <small class="text-muted" id="fechaHoy"></small>
+            <small class="bg-warning" id="totales"></small>
         </div>
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto p-2 border rounded text-center">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Motivo</th>
-                            <th scope="col">Monto $</th>
-                            <th scope="col">Opcion</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultados-db">
-
-                    </tbody>
-                </table>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto border p-2 rounded">
+            <div class="form-group mb-3">
+                <label for="monto"><strong>Monto $: </strong></label>
+                <input type="number" id="monto" name="monto" class="form-control" placeholder="ingresa el monto"
+                    required>
             </div>
+            <div class="form-group mb-3">
+                <label for="motivo"><strong>Motivo: </strong></label>
+                <input type="text" id="motivo" name="motivo" class="form-control" placeholder="ingresa el motivo"
+                    required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="fecha"><strong>Fecha: </strong></label>
+                <input type="date" id="fecha" name="fecha" class="form-control"required>
+            </div>
+            <div class="form-group mb-3 text-center">
+                <button class="btn btn-danger btn-lg" type="button" id="agregar">Agregar Gastito</button>
+            </div>
+
         </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto p-2 border rounded text-center">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Motivo</th>
+                        <th scope="col">Monto $</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Opcion</th>
+                    </tr>
+                </thead>
+                <tbody id="resultados-db">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
     </div>
     <div class="row">
         <div class="clearfix"></div>
@@ -69,14 +82,15 @@
 </body>
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#fechaHoy").html('Hoy es: ' + new Date().toLocaleDateString());
         loadEntries();
         $("#agregar").on("click", function () {
             if ($("#monto").val() && $("#motivo").val()) {
                 /*alert("Importe:"+ $("#monto").val() +" "+ "Motivo: "+ $("#motivo").val());    */
                 const monto = $("#monto").val();
                 const motivo = $("#motivo").val();
-                const entrada = { motivo, monto }
-                console.log(entrada);
+                const fecha = $("#fecha").val();
+                const entrada = { motivo, monto, fecha }
                 const transaccion = db.transaction(['gastos'], 'readwrite');
                 const objectStore = transaccion.objectStore('gastos');
                 const request = objectStore.add(entrada)
@@ -94,18 +108,17 @@
                 };
             }
         });
-        
-        $(document).on('click','#eliminar', function(){            
-            
+
+        $(document).on('click', '#eliminar', function () {
+
             var id = $(this).closest('.btn-danger').data('id');
-            console.log(id);
             const transaction = db.transaction(['gastos'], 'readwrite');
             const objectStore = transaction.objectStore('gastos');
             const request = objectStore.delete(id);
-            request.onsuccess = function(event){
+            request.onsuccess = function (event) {
                 loadEntries();
             }
-            request.onerror = function(event){
+            request.onerror = function (event) {
                 alert('Error borrando el registro');
             }
 

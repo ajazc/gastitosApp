@@ -15,6 +15,7 @@ request.onupgradeneeded = function(event) {
     const objectStore = db.createObjectStore('gastos', { keyPath: 'id', autoIncrement: true });
     objectStore.createIndex('motivo', 'motivo', { unique: false });
     objectStore.createIndex('monto', 'monto', { unique: false });
+    objectStore.createIndex('fecha', 'fecha', { unique: false });
 };
 
 function loadEntries() {
@@ -30,6 +31,7 @@ function loadEntries() {
             cursor.continue();
         } else {
             displayEntries(entries);
+            sumaTodo(entries)
         }
     };
 
@@ -44,9 +46,22 @@ function displayEntries(entries) {
                     <td>${entry.id}</td>\
                     <td>${entry.motivo}</td>\
                     <td>${entry.monto}</td>\
+                    <td>${entry.fecha}</td>\
                     <td>
                     <button class='btn btn-danger' id='eliminar' data-id='${entry.id}'>Eliminar</button>
                     <td></tr>`);
     });
+}
+function sumaTodo(entries){
+    $("#totales").empty();
+    var total=parseFloat(0);
+    console.log(entries);
+    for (let i in entries){
+        console.log();
+        total += parseFloat(entries[i].monto);
+    }
+    $("#totales").html(`Total de Gatos $ ${total}`);
     
+    
+
 }
