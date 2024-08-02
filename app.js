@@ -8,40 +8,42 @@ request.onerror = function (event) {
 request.onsuccess = function (event) {
     db = event.target.result;
     var dbVersion = request.result;
-    console.log('Conectado a Version DB '+dbVersion.version)
+    console.log('Conectado a Version DB ' + dbVersion.version)
     $("#db-version").html(dbVersion.version)
 };
 
 request.onupgradeneeded = function (event) {
     db = event.target.result;
-    const objectStore = db.createObjectStore('gastos', { keyPath: 'id', autoIncrement: true });
-    objectStore.createIndex('motivo', 'motivo', { unique: false });
-    objectStore.createIndex('monto', 'monto', { unique: false });
-    objectStore.createIndex('tipopago', 'tipopago', { unique: false });
-    objectStore.createIndex('fecha', 'fecha', { unique: false });
+    if (!db.objectStoreNames.contains('gastosDB')) {
+        const objectStore = db.createObjectStore('gastos', { keyPath: 'id', autoIncrement: true });
+        objectStore.createIndex('motivo', 'motivo', { unique: false });
+        objectStore.createIndex('monto', 'monto', { unique: false });
+        objectStore.createIndex('tipopago', 'tipopago', { unique: false });
+        objectStore.createIndex('fecha', 'fecha', { unique: false });
+    }
 };
 
 function loadEntries() {
-        const transaction = db.transaction(['gastos'], 'readonly');
-        const objectStore = transaction.objectStore('gastos');
-        const request = objectStore.openCursor();
-        const entries = [];
+    const transaction = db.transaction(['gastos'], 'readonly');
+    const objectStore = transaction.objectStore('gastos');
+    const request = objectStore.openCursor();
+    const entries = [];
 
-        request.onsuccess = function (event) {
-            const cursor = event.target.result;
-            if (cursor) {
-                entries.push(cursor.value);
-                cursor.continue();
-            } else {
-                displayEntries(entries);
-                sumaTodo(entries)
+    request.onsuccess = function (event) {
+        const cursor = event.target.result;
+        if (cursor) {
+            entries.push(cursor.value);
+            cursor.continue();
+        } else {
+            displayEntries(entries);
+            sumaTodo(entries)
 
-            }
-        };
-        request.onerror = function (event) {
-            console.log('Error al cargar los gastos', event);
-        };
-    
+        }
+    };
+    request.onerror = function (event) {
+        console.log('Error al cargar los gastos', event);
+    };
+
 };
 
 function displayEntries(entries) {
