@@ -21,7 +21,6 @@ request.onupgradeneeded = function (event) {
 };
 
 function loadEntries() {
-    try {
         const transaction = db.transaction(['gastos'], 'readonly');
         const objectStore = transaction.objectStore('gastos');
         const request = objectStore.openCursor();
@@ -41,10 +40,7 @@ function loadEntries() {
         request.onerror = function (event) {
             console.log('Error al cargar los gastos', event);
         };
-    }
-    catch (error) {
-        console.log(error)
-    }
+    
 };
 
 function displayEntries(entries) {
