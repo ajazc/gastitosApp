@@ -139,8 +139,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#fechaHoy").html('Hoy es: ' + new Date().toLocaleDateString());
-        
-        loadEntries();
         $("#agregar").on("click", function () {
             if ($("#monto").val() && $("#motivo").val()) {
                 /*alert("Importe:"+ $("#monto").val() +" "+ "Motivo: "+ $("#motivo").val());    */
