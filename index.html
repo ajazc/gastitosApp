@@ -16,73 +16,130 @@
 </head>
 
 <body>
-    <div class="container-fluid bg-light">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto border p-2 rounded text-center">
-            <h1 class="header text-center">Bienvenido a Gastitos App </h1>
-            <span class="text-muted text-center"><strong>Aca podes cargar tus gastos diarios y llevar un control de los
-                    mismos</strong></span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto border p-2 rounded">
-            <small class="text-muted" id="fechaHoy"></small>
-            <small class="bg-warning" id="totales"></small>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto border p-2 rounded">
-            <div class="form-group mb-3">
-                <label for="monto"><strong>Monto $: </strong></label>
-                <input type="number" id="monto" name="monto" class="form-control" placeholder="ingresa el monto"
-                    required>
-            </div>
-            <div class="form-group mb-3">
-                <label for="motivo"><strong>Motivo: </strong></label>
-                <input type="text" id="motivo" name="motivo" class="form-control" placeholder="ingresa el motivo"
-                    required>
-            </div>
-            <div class="form-group mb-3">
-                <label for="fecha"><strong>Fecha: </strong></label>
-                <input type="date" id="fecha" name="fecha" class="form-control"required>
-            </div>
-            <div class="form-group mb-3 text-center">
-                <button class="btn btn-danger btn-lg" type="button" id="agregar">Agregar Gastito</button>
-            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto p-2 rounded text-center text-white">
+                <h1 class="header text-center">Bienvenido a Gastitos App
+                    <img class="img" src="/img/impuesto.png" alt="gastito" width="20%" height="20%"> </h1>
+                <span class="text-white text-center"><strong>Aca podes cargar tus gastos diarios y llevar un control de
+                        los
+                        mismos</strong></span>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto p-2 border rounded text-center">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Motivo</th>
-                        <th scope="col">Monto $</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Opcion</th>
-                    </tr>
-                </thead>
-                <tbody id="resultados-db">
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-    </div>
-    <div class="row">
-        <div class="clearfix"></div>
-        <div class="flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <div class="text-center">
-                <strong>Web App - Desarrollado por Azcarate Augusto - 2024</strong>
-                </strong>
             </div>
         </div>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto border-top text-white p-2 rounded">
+                <small class="text-white" id="fechaHoy"></small>
+                <small class="bg-danger" id="totales"></small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-6 col-xs-6 mx-auto border p-2 rounded">
+                <div class="form-group mb-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <label for="monto"><strong>Monto $: </strong></label>
+                            <input type="number" id="monto" name="monto" class="form-control"
+                                placeholder="ingresa el monto" required>
+                        </div>
+                        <div class="col-4 text-center">
+                            <label class="form-check-label" for="tipo-gasto">
+                                <strong> T. Credito ?</strong>
+                            </label><br>
+                            <input type="checkbox" name="tipopago" id="tipopago">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="motivo"><strong>Motivo: </strong></label>
+                    <input type="text" id="motivo" name="motivo" class="form-control" placeholder="ingresa el motivo"
+                        required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="fecha"><strong>Fecha: </strong></label>
+                    <input type="date" id="fecha" name="fecha" class="form-control" required>
+                </div>
+                <div class="form-group mb-3 text-center">
+                    <button class="btn btn-danger btn-lg" type="button" id="agregar">
+                        <img class="img" src="/img/riqueza-personal.png" width="5%" height="5%" alt="icon-gastito">
+                        Agregar Gastito
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-7 col-xs-6 mx-auto p-2 text-center">
+                <table class="table table-hover bg-light rounded ">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Motivo</th>
+                            <th scope="col">Monto $</th>
+                            <th scope="col">Tipo Pago</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Opcion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultados-db">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <span class="text-white text-center">
+                Este sitio utiliza IndexedDB como Base de Datos, 
+                toda informacion esta completamente almacenada en su dispositivo
+                <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API">Acerca de IndexedDB</a>
+            </span>
+        </div>
+        <div class="row">
+            <div class="clearfix"></div>
+            <div class="flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <div class="text-center text-white">
+                    <strong>Web App - Desarrollado por <a href="https://www.linkedin.com/in/augusto-azcarate-a8089418a/">Azcarate Augusto</a>- 2024</strong>
+                    <br>
+                    <img class="img" src="/img/dev-power-by.png" width="100px" height="50px" alt="dev-power-by"/>
+                    <br>
+                    <small class="text-white">Version: 1.4</small>
+                </div>
+            </div>
+        </div>
+
 </body>
+<style type="text/css">
+    table {
+        font-size: 12px;
+    }
+    thead {
+        width: 100%;
+    }
+    input[type="checkbox"] {
+        width: 30px;
+        height: 30px;
+    }
+    label{
+        color: white;
+    }
+    body{
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif !important;
+        
+    }
+    .container-fluid {
+        background: rgb(2, 0, 36);
+        background: linear-gradient(190deg, rgba(2, 0, 36, 1) 0%, rgba(51, 92, 105, 1) 42%, rgba(33, 104, 118, 1) 100%);
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#fechaHoy").html('Hoy es: ' + new Date().toLocaleDateString());
+        
         loadEntries();
         $("#agregar").on("click", function () {
             if ($("#monto").val() && $("#motivo").val()) {
@@ -90,7 +147,12 @@
                 const monto = $("#monto").val();
                 const motivo = $("#motivo").val();
                 const fecha = $("#fecha").val();
-                const entrada = { motivo, monto, fecha }
+                var tipopago = 'Eft/Deb';
+                if ($("#tipopago").is(":checked")) {
+                    tipopago = 'T Credito';
+                }
+
+                const entrada = { motivo, monto, tipopago, fecha }
                 const transaccion = db.transaction(['gastos'], 'readwrite');
                 const objectStore = transaccion.objectStore('gastos');
                 const request = objectStore.add(entrada)

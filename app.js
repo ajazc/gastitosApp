@@ -15,6 +15,7 @@ request.onupgradeneeded = function(event) {
     const objectStore = db.createObjectStore('gastos', { keyPath: 'id', autoIncrement: true });
     objectStore.createIndex('motivo', 'motivo', { unique: false });
     objectStore.createIndex('monto', 'monto', { unique: false });
+    objectStore.createIndex('tipopago', 'tipopago', { unique: false });
     objectStore.createIndex('fecha', 'fecha', { unique: false });
 };
 
@@ -46,6 +47,7 @@ function displayEntries(entries) {
                     <td>${entry.id}</td>\
                     <td>${entry.motivo}</td>\
                     <td>${entry.monto}</td>\
+                    <td>${entry.tipopago}</td>\
                     <td>${entry.fecha}</td>\
                     <td>
                     <button class='btn btn-danger' id='eliminar' data-id='${entry.id}'>Eliminar</button>
