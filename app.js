@@ -37,6 +37,7 @@ function loadEntries() {
         } else {
             displayEntries(entries);
             sumaTodo(entries)
+            promedioDia(entries)
 
         }
     };
@@ -69,6 +70,16 @@ function sumaTodo(entries) {
     }
     $("#totales").html(`Total de Gatos $ ${total}`);
 
-
+}
+function promedioDia(entries) {
+    $("#promedioDia").empty();
+    var diaDelMes = new Date().getUTCDate();
+    var total = parseFloat(0);
+    for (let i in entries) {
+        console.log();
+        total += parseFloat(entries[i].monto);
+    }
+    $("#promedioDia").html(`Promedio de Gastos diarios $ ${parseFloat(total/diaDelMes)}`);
+    
 
 }
