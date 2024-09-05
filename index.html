@@ -56,7 +56,12 @@
                 <div class="form-group mb-3">
 
                 </div>
-
+                <div class="form-group mb-3">
+                    <label for="categorias"><strong>Categorias: </strong></label>
+                    <select name="categorias" id="categorias" class="form-control">
+                        
+                    </select>
+                </div>
                 <div class="form-group mb-3">
                     <label for="motivo"><strong>Motivo: </strong></label>
                     <input type="text" id="motivo" name="motivo" class="form-control" placeholder="ingresa el motivo"
@@ -104,6 +109,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Id</th>
+                            <th scope="col">Categoria</th>
                             <th scope="col">Motivo</th>
                             <th scope="col">Monto $</th>
                             <th scope="col">Tipo Pago</th>
@@ -170,6 +176,7 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
+        agregaCategorias();
         $("#fechaHoy").html('Hoy es: ' + new Date().toLocaleDateString());
         $("#exportar").attr('download', new Date().toLocaleDateString()+'.csv');
         $("#agregar").on("click", function () {
@@ -178,15 +185,16 @@
                 const monto = $("#monto").val();
                 const motivo = $("#motivo").val();
                 const fecha = $("#fecha").val();
+                const categoria = $("#categorias").val();
                 var tipopago = 'Eft/Deb';
                 if ($("#tipopago").is(":checked")) {
                     tipopago = 'T Credito';
                 }
 
-                const entrada = { motivo, monto, tipopago, fecha }
+                const entrada = {categoria, motivo, monto, tipopago, fecha }
                 const transaccion = db.transaction(['gastos'], 'readwrite');
                 const objectStore = transaccion.objectStore('gastos');
-                const request = objectStore.add(entrada)
+                const request = objectStore.add(entrada);
 
                 request.onsuccess = function (event) {
                     loadEntries();
@@ -217,7 +225,7 @@
 
         });
         $(document).on('click', '#actualizar', function () {
-            loadEntries();
+            loadEntries();           
         });
         $(document).on('click', '#exportar', function () {
             
