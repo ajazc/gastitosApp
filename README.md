@@ -1,0 +1,1 @@
+La aplicación Gastito es un pequeña herramienta en línea que permite a los usuarios crear, almacenar y gestionar notas personales directamente en su navegador web. En animo de investigar el uso de IndexedDB, esta aplicación almacena los datos de forma local [navegador], lo que asegura que las notas sean accesibles incluso sin conexión a Internet.
